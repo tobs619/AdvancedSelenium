@@ -1,0 +1,4 @@
+src/test/resources/config/user.properties
+.idea
+target
+src/test/resources/chromedriver
