@@ -8,6 +8,8 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = {"src/test/resources/Features/Login.feature"},
         plugin = {"pretty","html:target/cucumber.html", "json:target/cucumber.json"},
+
+        tags = "@smoke",
         publish = true
 )
 

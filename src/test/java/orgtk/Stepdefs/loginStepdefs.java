@@ -5,6 +5,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import orgtk.BaseClass;
+import orgtk.PageObjects.HomePage;
 import orgtk.PageObjects.LoginPage;
 import orgtk.Utils.PropertiesUtil;
 
@@ -15,7 +16,7 @@ public class loginStepdefs extends BaseClass {
     Properties properties = PropertiesUtil.loaduserProperties();
 
 
-    @Given("user enters valid username in he username  field")
+    @Given("user enters valid email in the email  field")
     public void userEntersValidUsernameInHeUsernameField() {
 
         String username = properties.getProperty("username");
@@ -39,17 +40,32 @@ public class loginStepdefs extends BaseClass {
 
     @Then("user is logged in successfully")
     public void userIsLoggedInSuccessfully() {
+        HomePage.validateLogin("My Account");
     }
 
-    @Given("user enters invalid username in he username  field")
-    public void userEntersInvalidUsernameInHeUsernameField() {
+    @Given("^user enters invalid (.*) in the email field$")
+    public void userEntersInvalidUsernameInHeUsernameField(String username) {
+
+        LoginPage.enterUsername(username);
     }
 
-    @And("user enters invalid password in the password field")
-    public void userEntersInvalidPasswordInThePasswordField() {
+    @And("^user enters invalid (.*) in the password field$")
+    public void userEntersInvalidPasswordInThePasswordField(String password) {
+        LoginPage.enterPassword(password);
     }
 
-    @Then("error message is displayed")
-    public void errorMessageIsDisplayed() {
+    @Then("^error (.*) is displayed$")
+    public void errorMessageIsDisplayed(String message) {
+        LoginPage.validateInvalidLogin(message);
     }
+
+    @Given("User is Logged in")
+    public void userIsLoggedIn() {
+        userEntersValidUsernameInHeUsernameField();
+        userEntersValidPasswordInThePasswordField();
+        userClicksOnTheLoginButton();
+        userIsLoggedInSuccessfully();
+    }
+
+
 }
